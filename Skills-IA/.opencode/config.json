@@ -1,0 +1,12 @@
+{
+    "default_skills": [
+        "architecture-and-libraries",
+        "forms-and-validation",
+        "itc-components-reference",
+        "react-best-practices",
+        "routing-and-authorization",
+        "state-and-data-fetching",
+        "testing-guidelines",
+        "ui-and-accessibility"
+    ]
+}
