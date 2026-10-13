@@ -31,14 +31,6 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="es"
       className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} h-full antialiased`}
     >
-      <head>
-        <link
-          rel="preload"
-          href="/vendor/itc-frontend-base.css"
-          as="style"
-        />
-        <link rel="stylesheet" href="/vendor/itc-frontend-base.css" />
-      </head>
       <body className="min-h-full flex flex-col">{children}</body>
     </html>
   );
