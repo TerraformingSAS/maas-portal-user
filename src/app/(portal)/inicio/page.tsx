@@ -77,6 +77,7 @@ export default function InicioPage() {
             <div className="inline-flex items-center gap-2 bg-white/15 rounded-full px-4 py-1.5 text-sm font-medium backdrop-blur-sm">
               <Building2 className="h-4 w-4" />
               Portal de Gestión Inmobiliaria
+              <span className="ml-1 px-2 py-0.5 bg-white/20 rounded-full text-xs font-bold">V1.0</span>
             </div>
             <h1 className="text-3xl md:text-4xl font-bold leading-tight">
               ¡Hola, {cliente?.nombre} {cliente?.apellido}!
