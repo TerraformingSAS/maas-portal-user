@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "eslint",
     "test": "vitest run",
-    "postinstall": "node -e \"const fs=require('fs'),p='node_modules/itc-frontend-base/dist/itc-frontend-base.css';if(fs.existsSync(p)){const c=fs.readFileSync(p,'utf8').replace(/@import\\\\s+\\\"https:\\\\/\\\\/fonts\\\\.googleapis\\\\.com[^\\\"]*\\\";?/,'');fs.writeFileSync('public/vendor/itc-frontend-base.css',c)}\""
+    "postinstall": "node scripts/extract-itc-css.js"
   },
   "dependencies": {
     "@base-ui/react": "^1.9.0",
@@ -17,7 +17,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cn": "^0.4.0",
-    "itc-frontend-base": "^1.1.4",
+    "itc-frontend-base": "file:./vendor/itc-frontend-base-1.1.4.tgz",
     "jose": "^6.2.12",
     "jsdom": "^30.1.2",
     "lucide-react": "^1.54.0",
