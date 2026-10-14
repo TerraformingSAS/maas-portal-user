@@ -53,10 +53,18 @@ fs.writeFileSync(dest, itcCss);
 console.log(`Extracted itc component styles: ${itcCss.length} bytes (from ${content.length} bytes)`);
 
 function cleanup(css) {
-  return stripTwProperties(css)
+  const extracted = stripTwProperties(css)
     .replace(/@import\s+["']https:\/\/fonts\.googleapis\.com[^"']*["']\s*;?/g, "")
     .replace(/\/\*\$vite\$:\d+\*\//g, "")
-    .trim() + "\n";
+    .trim();
+  // The library names the family "Inter". next/font exposes the loaded face as
+  // --font-inter, so every component uses that face instead of a missing family.
+  return `${extracted}
+:root {
+  --itc-font: var(--font-inter, "Inter", ui-sans-serif, system-ui, sans-serif);
+  --itc-font-family: var(--font-inter, "Inter", ui-sans-serif, system-ui, sans-serif);
+}
+`;
 }
 
 // Unlayered @property --tw-* rules from the library build override the host
