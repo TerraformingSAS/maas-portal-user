@@ -33,18 +33,48 @@ for (const layer of layers) {
   layer.end = pos;
 }
 
-// Extract: @layer components + everything after @layer utilities
+// Keep component rules as plain CSS. Do not wrap them in @layer and do not
+// include the library's Tailwind theme, base, or utilities — those override
+// the host app when the file is processed by Tailwind in production.
 const componentsLayer = layers.find((l) => l.name === "components");
 const utilitiesLayer = layers.find((l) => l.name === "utilities");
 
 if (!componentsLayer || !utilitiesLayer) {
   console.log("Could not find components/utilities layers, copying full CSS");
-  fs.writeFileSync(dest, content);
+  fs.writeFileSync(dest, cleanup(content));
   process.exit(0);
 }
 
-const itcCss = content.substring(componentsLayer.start, componentsLayer.end) +
-  content.substring(utilitiesLayer.end);
+const componentsBody = content.substring(componentsLayer.braceStart, componentsLayer.end - 1);
+const afterUtilities = content.substring(utilitiesLayer.end);
+const itcCss = cleanup(componentsBody + afterUtilities);
 
 fs.writeFileSync(dest, itcCss);
 console.log(`Extracted itc component styles: ${itcCss.length} bytes (from ${content.length} bytes)`);
+
+function cleanup(css) {
+  return stripTwProperties(css).replace(/\/\*\$vite\$:\d+\*\//g, "").trim() + "\n";
+}
+
+// Unlayered @property --tw-* rules from the library build override the host
+// Tailwind custom properties. The app already emits these.
+function stripTwProperties(css) {
+  const re = /@property\s+--tw-[\w-]+\s*\{/g;
+  let result = "";
+  let last = 0;
+  let propertyMatch;
+  while ((propertyMatch = re.exec(css)) !== null) {
+    result += css.slice(last, propertyMatch.index);
+    let depth = 1;
+    let pos = propertyMatch.index + propertyMatch[0].length;
+    while (depth > 0 && pos < css.length) {
+      if (css[pos] === "{") depth++;
+      else if (css[pos] === "}") depth--;
+      pos++;
+    }
+    last = pos;
+    re.lastIndex = pos;
+  }
+  result += css.slice(last);
+  return result;
+}
