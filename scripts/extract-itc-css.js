@@ -2,12 +2,14 @@ const fs = require("fs");
 const path = require("path");
 
 const src = "node_modules/itc-frontend-base/dist/itc-frontend-base.css";
-const dest = "public/vendor/itc-frontend-base.css";
+const dest = "src/styles/vendor/itc-frontend-base.css";
 
 if (!fs.existsSync(src)) {
   console.log("itc-frontend-base CSS not found, skipping extraction");
   process.exit(0);
 }
+
+fs.mkdirSync(path.dirname(dest), { recursive: true });
 
 const content = fs.readFileSync(src, "utf8");
 

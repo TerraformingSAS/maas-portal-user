@@ -100,4 +100,4 @@ El portal utiliza los componentes de `itc-frontend-base` como biblioteca princip
 - **ItcTabs** — Pestañas con múltiples variantes visuales
 - **ItcModal** — Diálogos modales
 
-Los estilos CSS de itc-frontend-base se cargan desde `public/vendor/itc-frontend-base.css` como archivo estático para evitar conflictos con el procesador CSS de Tailwind.
+Los estilos CSS de itc-frontend-base se cargan desde `src/styles/vendor/itc-frontend-base.css` e importan en `globals.css` para que el pipeline de PostCSS/Tailwind los procese correctamente.
