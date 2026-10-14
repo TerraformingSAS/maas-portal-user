@@ -53,7 +53,10 @@ fs.writeFileSync(dest, itcCss);
 console.log(`Extracted itc component styles: ${itcCss.length} bytes (from ${content.length} bytes)`);
 
 function cleanup(css) {
-  return stripTwProperties(css).replace(/\/\*\$vite\$:\d+\*\//g, "").trim() + "\n";
+  return stripTwProperties(css)
+    .replace(/@import\s+["']https:\/\/fonts\.googleapis\.com[^"']*["']\s*;?/g, "")
+    .replace(/\/\*\$vite\$:\d+\*\//g, "")
+    .trim() + "\n";
 }
 
 // Unlayered @property --tw-* rules from the library build override the host
